@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Windmill Health Dashboard</title>
+  
+  <!-- Core Fonts and CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+  
+  <!-- Plotly + Choices.js -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+  <!-- Three.js & GLTF Loader -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/GLTFLoader.js"></script>
+
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="dashboard-header">
+    <img src="{{ url_for('static', filename='adani_renewables.png') }}" alt="Logo" class="dashboard-logo" />
+    <h1 class="dashboard-title">Windmill Health Dashboard</h1>
+    <label class="theme-switch">
+      <input type="checkbox" id="theme-toggle" />
+      <span class="slider"></span>
+    </label>
+  </header>
+
+  <!-- Descriptive Statistics Section -->
+  <section class="dashboard-section">
+    <h2 class="section-heading">📋 Descriptive Statistics</h2>
+
+    <div class="stats-flex">
+      <div class="stat-box">
+        <div class="summary-overview">
+          <h4>📌 Project Overview</h4>
+          <p>
+            This <strong>Windmill Health Monitor</strong> analyzes <span class="tag">sensor</span> and <span class="tag">temperature</span> signals from the <strong>Gearbox</strong> to detect early-stage health issues using <strong>Machine Learning</strong> and advanced visual diagnostics.
+          </p>
+          <p>
+            <strong>Total Data Points:</strong> {{ features_stats[0].count | int }}<br />
+            <strong>Features ({{ features_list | length }}):</strong>
+            {% for item in features_list %}
+              <span class="tag">{{ item }}</span>
+            {% endfor %}
+            <br />
+            <strong>Targets ({{ targets_list | length }}):</strong>
+            {% for item in targets_list %}
+              <span class="tag target">{{ item }}</span>
+            {% endfor %}
+          </p>
+        </div>
+        <h3 class="subheading">Targets</h3>
+        <div class="table-wrapper">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Column</th><th>Count</th><th>Mean</th><th>Std</th><th>Min</th><th>25%</th><th>50%</th><th>75%</th><th>Max</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in targets_stats %}
+              <tr>
+                <td>{{ row.Column }}</td><td>{{ row.count }}</td><td>{{ row.mean }}</td><td>{{ row.std }}</td>
+                <td>{{ row.min }}</td><td>{{ row['25%'] }}</td><td>{{ row['50%'] }}</td><td>{{ row['75%'] }}</td><td>{{ row.max }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="stat-box">
+        <h3 class="subheading">Features</h3>
+        <div class="table-wrapper">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Column</th><th>Count</th><th>Mean</th><th>Std</th><th>Min</th><th>25%</th><th>50%</th><th>75%</th><th>Max</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in features_stats %}
+              <tr>
+                <td>{{ row.Column }}</td><td>{{ row.count }}</td><td>{{ row.mean }}</td><td>{{ row.std }}</td>
+                <td>{{ row.min }}</td><td>{{ row['25%'] }}</td><td>{{ row['50%'] }}</td><td>{{ row['75%'] }}</td><td>{{ row.max }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- After Features table -->
+        <div class="view-dashboard-wrapper">
+          <button id="scroll-to-dashboard">
+            View Dashboard ↓
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Bar Charts -->
+  <section class="dashboard-section">
+  <div class="overview-header">
+    <h2>📊 Data Overview</h2>
+    <div class="date-filter">
+        <!-- Date range filter controls -->
+        <input type="date" id="start-date"><span>to</span><input type="date" id="end-date">
+        <button id="apply-btn">Apply</button>
+        <button id="reset-btn">Reset</button>
+    </div>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="kpi-container">
+    <div class="kpi-card">
+      <div class="kpi-label">Total Rows</div>
+      <div class="kpi-value" id="kpi-total-rows">–</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Avg. Target Temp</div>
+      <div class="kpi-value" id="kpi-avg-temp">–</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Max Gen Speed</div>
+      <div class="kpi-value" id="kpi-max-speed">–</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Top Deviation Sensor</div>
+      <div class="kpi-value" id="kpi-top-deviation">–</div>
+    </div>
+  </div>
+
+  <!-- Overview Visuals -->
+  <div class="chart-duo">
+    <div id="pieChart" class="chart-box"></div>
+    <div id="heatmapChart" class="chart-box"></div>
+  </div>
+  </section>
+
+
+  <section class="dashboard-section">
+  <div class="dark-card-panel">
+    <h2 class="section-heading">🧠 Sensor-to-Target 3D Visualization</h2>
+
+    <div class="axis-selectors">
+      <div>
+        <label for="3d-x-select">🧭 Feature X:</label>
+        <select id="3d-x-select"></select>
+      </div>
+      <div>
+        <label for="3d-y-select">🪄 Feature Y:</label>
+        <select id="3d-y-select"></select>
+      </div>
+      <div>
+        <label for="3d-z-select">🎯 Target:</label>
+        <select id="3d-z-select"></select>
+      </div>
+    </div>
+
+    <div id="threeDChart" class="chart-box" style="height: 500px;"></div>
+  </div>
+  </section>
+
+  <section class="dashboard-section">
+    <h2 class="section-heading">🌐 Windmill Location - Dayapar</h2>
+    <div id="dayaparMap" style="height: 400px; border-radius: 10px;"></div>
+  </section>
+
+  <!-- Leaflet Map Dependencies -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+
+  <!-- Data Injection and Scripts -->
+  <script>
+  var features_list = {{ features_list|tojson }};
+  var targets_list = {{ targets_list|tojson }};
+  var features_stats = {{ features_stats|tojson }};
+  var targets_stats = {{ targets_stats|tojson }};
+  var features_means = {{ features_means|tojson }};
+  var targets_means = {{ targets_means|tojson }};
+  var chartData = {{ chart_data|tojson }};
+  </script>
+  <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>

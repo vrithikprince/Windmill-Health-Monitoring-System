@@ -1,0 +1,808 @@
+/* ---------- Global ---------- */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f7f9fc;
+  color: #111827;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+  background-color: #0f172a;
+  color: #f1f5f9;
+}
+
+/* ---------- Header ---------- */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(to right, #134e4a, #0f766e);
+  padding: 12px 24px;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.dashboard-logo {
+  height: 40px;
+}
+
+.dashboard-title {
+  font-size: 24px;
+  font-weight: 600;
+  flex: 1;
+  text-align: center;
+  margin: 0;
+}
+
+/* ---------- Theme Toggle ---------- */
+.theme-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.theme-switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 24px;
+  transition: 0.4s;
+}
+
+.theme-switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+.theme-switch input:checked + .slider {
+  background-color: #22c55e;
+}
+
+.theme-switch input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+/* ---------- Sections ---------- */
+.dashboard-section {
+    margin: 30px auto;
+    padding: 0 40px;
+    max-width: 100%;
+}
+
+.section-heading {
+  font-size: 22px;
+  margin-bottom: 16px;
+  color: #0f766e;
+}
+
+body.dark-mode .section-heading {
+  color: #38bdf8;
+}
+
+/* ---------- Cards ---------- */
+.stats-card, .bar-charts-container, .chart-grid {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+  margin-bottom: 30px;
+}
+
+body.dark-mode .stats-card,
+body.dark-mode .bar-charts-container,
+body.dark-mode .chart-grid {
+  background-color: #1e293b;
+  box-shadow: 0 3px 12px rgba(255, 255, 255, 0.05);
+}
+
+/* ---------- Tables ---------- */
+.table-wrapper {
+    overflow-x: auto;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    min-width: 800px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.styled-table thead {
+    background: linear-gradient(to right, #0f766e, #1e3a8a);
+    color: #fff;
+    font-weight: 600;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 10px 14px;
+    text-align: left;
+    border: 1px solid #d1d5db;
+}
+
+.styled-table tbody tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+.styled-table tbody tr:hover {
+    background-color: #e0f2fe;
+    transition: background-color 0.2s ease;
+}
+
+/* Dark mode adjustments */
+body.dark-mode .styled-table {
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+body.dark-mode .styled-table th,
+body.dark-mode .styled-table td {
+    border: 1px solid #475569;
+}
+
+body.dark-mode .styled-table tbody tr:nth-child(even) {
+    background-color: #1f2937;
+}
+
+body.dark-mode .styled-table tbody tr:hover {
+    background-color: #334155;
+}
+
+/* ---------- Subheadings ---------- */
+.subheading {
+  font-size: 18px;
+  margin-top: 20px;
+  color: #374151;
+}
+
+body.dark-mode .subheading {
+  color: #f1f5f9;
+}
+
+/* ---------- Bar Charts ---------- */
+.bar-charts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 24px;
+    width: 100%;
+}
+
+.bar-chart-card {
+  flex: 1;
+  min-width: 250px;
+}
+
+.chart-box {
+  height: 300px;
+  margin-top: 10px;
+}
+
+/* ---------- Chart Suite ---------- */
+.axis-selectors {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.axis-selectors div {
+  flex: 1;
+  min-width: 180px;
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.chart-box {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+body.dark-mode .chart-box {
+  background-color: #1e293b;
+}
+
+/* Bar Charts Section Fix */
+.bar-charts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.bar-chart-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease;
+}
+
+.bar-chart-card:hover {
+    transform: scale(1.01);
+}
+
+body.dark-mode .bar-chart-card {
+    background-color: #1e293b;
+    box-shadow: 0 2px 12px rgba(255, 255, 255, 0.05);
+}
+
+.bar-chart-card label {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.bar-chart-card select {
+    width: 100%;
+    padding: 6px 8px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    background-color: #f9fafb;
+}
+
+body.dark-mode .bar-chart-card select {
+    background-color: #334155;
+    color: #f1f5f9;
+    border: 1px solid #475569;
+}
+
+.chart-box {
+    height: 300px;
+}
+
+.bar-chart-card {
+    background: linear-gradient(to right, #1e3a8a, #0f766e);
+    color: #f1f5f9;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 0 12px rgba(0, 255, 153, 0.2);
+    transition: transform 0.25s ease, box-shadow 0.3s ease;
+}
+
+.bar-chart-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 16px rgba(0, 255, 153, 0.4);
+}
+
+.bar-chart-card label {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 6px;
+    display: block;
+    color: #ffffff;
+}
+
+.bar-chart-card select {
+    width: 100%;
+    padding: 6px 10px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #f9fafb;
+    outline: none;
+    margin-bottom: 12px;
+}
+
+.bar-chart-card select:focus {
+    box-shadow: 0 0 0 2px #34d399;
+}
+
+body.dark-mode .bar-chart-card {
+    background: linear-gradient(to right, #0f172a, #164e63);
+    color: #f1f5f9;
+}
+
+#threeDChart {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+body.dark-mode #threeDChart {
+    background-color: #1e293b;
+}
+
+/* --- 3D Section Layout --- */
+#threeDChart {
+    width: 100%;
+    height: 500px;
+    border-radius: 12px;
+    background-color: white;
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.08);
+    padding: 10px;
+}
+
+body.dark-mode #threeDChart {
+    background-color: #1e293b;
+    box-shadow: 0 3px 14px rgba(255, 255, 255, 0.05);
+}
+
+/* --- Dropdown Container Layout --- */
+.dashboard-section .axis-selectors {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 18px;
+}
+
+.axis-selectors>div {
+    flex: 1;
+    min-width: 200px;
+}
+
+/* --- Labels and Dropdowns --- */
+.axis-selectors label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #0f172a;
+}
+
+body.dark-mode .axis-selectors label {
+    color: #f1f5f9;
+}
+
+.axis-selectors select {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    background-color: #f9fafb;
+    font-size: 14px;
+    outline: none;
+}
+
+.axis-selectors select:focus {
+    box-shadow: 0 0 0 2px #34d399;
+}
+
+body.dark-mode .axis-selectors select {
+    background-color: #334155;
+    border: 1px solid #475569;
+    color: #f1f5f9;
+}
+
+/* === Dark Themed 3D Visualization Section === */
+#threeDChart {
+    width: 100%;
+    height: 500px;
+    border-radius: 14px;
+    background-color: #0f172a;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+    padding: 10px;
+}
+
+/* Optional: make dropdown container match the card */
+#threeDChart+.axis-selectors,
+.dashboard-section .axis-selectors {
+    background-color: #0f172a;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Fix dropdowns for dark background (even in light mode) */
+.axis-selectors select {
+    background-color: #1e293b;
+    color: #f1f5f9;
+    border: 1px solid #334155;
+}
+
+.axis-selectors label {
+    color: #f9fafb;
+}
+
+.dark-card-panel {
+    background-color: #0f172a;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
+}
+
+/* Optional: white text in dark block */
+.dark-card-panel .section-heading,
+.dark-card-panel label {
+    color: #f1f5f9;
+}
+
+.bar-chart-card {
+    background: linear-gradient(to bottom right, #1e3a8a, #0f766e);
+    color: #f1f5f9;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    transition: transform 0.25s ease;
+}
+
+.bar-chart-card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.chart-box {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 8px;
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.05);
+}
+
+body.dark-mode .chart-box {
+    background-color: #1e293b;
+}
+
+.kpi-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.kpi-card {
+    flex: 1;
+    min-width: 200px;
+    background: linear-gradient(to right, #0f766e, #1e3a8a);
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.kpi-card:hover {
+    transform: scale(1.02);
+}
+
+.kpi-label {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.kpi-value {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 6px;
+}
+
+.chart-duo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* Make table cells auto width and center-aligned */
+.styled-table td,
+.styled-table th {
+    padding: 10px;
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* First column (Column names) left aligned */
+.styled-table td:first-child,
+.styled-table th:first-child {
+    text-align: left;
+}
+
+/* Auto column width */
+.styled-table {
+    width: auto;
+    table-layout: auto;
+}
+
+/* Add hover shadow on row */
+.styled-table tbody tr:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    transition: all 0.2s ease;
+}
+
+.stats-flex {
+    display: flex;
+    gap: 2rem;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.stat-box {
+    flex: 1;
+    min-width: 460px;
+}
+
+/* Optional: Adjust table cell width & alignment */
+.styled-table td:not(:first-child),
+.styled-table th:not(:first-child) {
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Optional: Row hover effect */
+.styled-table tbody tr:hover {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    background-color: #f7faff;
+    transition: 0.3s;
+}
+
+.stat-box {
+    flex: 1;
+    min-width: 460px;
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    transition: box-shadow 0.3s ease;
+}
+
+.stat-box:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.stat-box {
+    flex: 1;
+    min-width: 460px;
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    transition: box-shadow 0.3s ease;
+}
+
+.stat-box:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+
+.summary-overview {
+    background: #f9f9f9;
+    padding: 1rem 1.2rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    color: #333;
+}
+
+.summary-overview h4 {
+    margin-bottom: 1.05rem;
+    color: #1d3557;
+}
+
+.summary-overview p {
+    margin: 0.3rem 0;
+    line-height: 1.4;
+}
+
+.summary-overview .tag {
+    display: inline-block;
+    background: #e0f4ff;
+    color: #006494;
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    margin: 2px 4px 2px 0;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.summary-overview .tag.target {
+    background: #f9e0f0;
+    color: #ad1457;
+}
+
+.summary-overview {
+    background: #fff;
+    padding: 20px 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+    margin-top: 16px;
+    /* 🔽 Reduce this */
+    margin-bottom: 20px;
+    font-size: 0.95rem; 
+}
+
+.stats-flex {
+    display: flex;
+    gap: 24px;
+    align-items: stretch;
+    /* 🔥 Ensures both cards stretch to max height */
+}
+
+.stat-box {
+    flex: 1;
+    /* 💪 Make both boxes take equal height */
+    display: flex;
+    flex-direction: column;
+}
+
+
+.stat-box>.table-wrapper:last-of-type {
+    margin-bottom: 8px;
+}
+
+.summary-overview h3 {
+    font-size: 1.15rem;
+    /* or try 1.25rem for slightly bolder presence */
+    font-weight: 600;
+    margin-bottom: 12px; 
+}
+
+.stat-box:last-child {
+    margin-bottom: 0 !important; 
+}
+
+.view-dashboard-wrapper {
+    display: flex;
+    justify-content: center;
+    /* Center horizontally */
+    margin-top: 24px;
+    /* Space from table */
+    margin-bottom: 8px;
+    /* Tight bottom spacing */
+}
+
+#scroll-to-dashboard {
+    background: linear-gradient(to right, #0f766e, #1e3a8a);
+    /* same as table header */
+    color: white;
+    font-weight: 600;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    max-width: 280px;
+    box-shadow: 0 4px 16px rgba(78, 0, 185, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#scroll-to-dashboard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(78, 0, 185, 0.45);
+}
+
+#heatmapChart {
+    height: 500px;
+    /* increase if needed */ 
+}
+
+.chart-duo {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.chart-box {
+    flex: 1;
+    min-height: 500px;
+    /* increased from previous default */
+}
+
+/* Layout for Data Overview header and filter UI */
+.overview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.date-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;  /* space between inputs, text, and buttons */
+}
+
+/* Styling for date inputs and buttons */
+.date-filter input[type="date"],
+.date-filter button {
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font: inherit;
+}
+.date-filter input[type="date"] {
+    background-color: #fff;
+    color: #333;
+}
+.date-filter button {
+    background-color: #f0f0f0;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Dark theme styling adjustments */
+body.dark-mode .date-filter input[type="date"] {
+    background-color: #333;
+    border-color: #555;
+    color: #fff;
+}
+body.dark-mode .date-filter button {
+    background-color: #555;
+    border-color: #777;
+    color: #fff;
+}
+
+
+
+
+/* Layout for Data Overview header and filter UI */
+.overview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.date-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* space between inputs, text, and buttons */
+}
+
+/* Styling for date inputs and buttons */
+.date-filter input[type="date"],
+.date-filter button {
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font: inherit;
+}
+
+.date-filter input[type="date"] {
+    background-color: #fff;
+    color: #333;
+}
+
+.date-filter button {
+    background-color: #f0f0f0;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Dark theme styling adjustments */
+body.dark-mode .date-filter input[type="date"] {
+    background-color: #333;
+    border-color: #555;
+    color: #fff;
+}
+
+body.dark-mode .date-filter button {
+    background-color: #555;
+    border-color: #777;
+    color: #fff;
+}
